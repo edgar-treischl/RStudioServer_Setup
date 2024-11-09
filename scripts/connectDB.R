@@ -1,10 +1,12 @@
 library(DBI)
 
+#Provide the path to the config file/credentials
 myhost <- config::get("server")
 credential <- keyring::key_get(service = "digialocean")
 db_user <- config::get("dbuser")
 
 
+#Connect to the database
 con <- dbConnect(
   RPostgres::Postgres(), 
   dbname = "defaultdb",         
@@ -14,6 +16,7 @@ con <- dbConnect(
   password = credential
 )
 
+#Test the connection
 print(con) 
 
 dbListTables(con)
