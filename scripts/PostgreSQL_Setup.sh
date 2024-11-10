@@ -7,7 +7,6 @@ ssh root@64.226.121.94
 
 
 
-
 #adduser rstudio
 
 #sudo apt install certbot python3-certbot-nginx

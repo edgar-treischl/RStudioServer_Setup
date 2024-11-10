@@ -1,0 +1,20 @@
+---
+title: "My First R Markdown Report"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This is a simple **R Markdown** document. Below is some R code:
+
+```{r cars}
+summary(cars)
+```
+
+
