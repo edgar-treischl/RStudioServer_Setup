@@ -2,7 +2,7 @@ adduser gisela
 usermod -aG sudo gisela
 
 
-ssh root@64.226.121.94
+#ssh root@ip_address
 
 
 
