@@ -2,37 +2,69 @@
 
 #ssh root@ip
 
+
 # Update system
 apt-get update || { echo 'ERROR: apt-get update failed' >&2; exit 1; }
 apt-get upgrade -y || { echo 'ERROR: apt-get upgrade failed' >&2; exit 1; }
 
 # Install dependencies
 apt-get install -y \
-    gdebi-core \
-    libssl-dev \
-    libcurl4-openssl-dev \
-    libxml2-dev \
-    default-jdk \
-    fail2ban \
-    nginx \
-    libsodium-dev \
-    libfribidi-dev \
-    libgit2-dev \
-    libharfbuzz-dev \
-    libtiff-dev \
-    libpq-dev \
-    libopenblas-dev \
-    pandoc \
-    texlive \
-    texlive-latex-base \
-    texlive-latex-extra \
-    texlive-fonts-recommended \
-    texlive-fonts-extra \
-    texlive-lang-german \
-    texlive-xetex \
-    libfreetype-dev \
-    libfontconfig1-dev \
-    ufw
+gdebi-core \                          # Package installer
+libssl-dev \                          # SSL/TLS libraries
+libcurl4-openssl-dev \                # cURL
+libxml2-dev \                         # XML parsing
+default-jdk \                         # Java Development Kit
+fail2ban \                            # Security tool to ban IPs after failed login
+nginx \                               # Web server
+libsodium-dev \                       # Cryptography library for secure operations
+libfribidi-dev \                      # Bidirectional text support (useful for languages like Arabic, Hebrew)
+libgit2-dev \                         # Git library (for interacting with Git repositories in C/C++ projects)
+libharfbuzz-dev \                     # Text shaping and rendering library
+libtiff-dev \                         # TIFF image file handling
+libpq-dev \                           # PostgreSQL library (for database integration)
+libopenblas-dev \                     # High-performance math library (for scientific computing)
+pandoc \                              # Document converter
+texlive \                             # TeX/LaTeX distribution for document generation
+texlive-latex-base \                  # LaTeX base packages
+texlive-latex-extra \                 # Additional LaTeX packages
+texlive-fonts-recommended \           # Recommended fonts for LaTeX
+texlive-fonts-extra \                 # Extra fonts for LaTeX
+texlive-lang-german \                 # German language support for LaTeX
+texlive-xetex \                       # LaTeX support for modern fonts (e.g., TrueType)
+libfreetype-dev \                     # Font rendering library
+libfontconfig1-dev \                  # Font configuration library
+ufw \                                 # Uncomplicated firewall
+libv8-dev                             # V8 JavaScript engine
+
+# Posit's recommended packages:       #(https://docs.posit.co/connect/admin/r/dependencies/index.html)
+# libcairo2-dev \                       # Graphics library for rendering (important for R plots)
+# make \                                # Tool for building and compiling software (useful for building R packages)
+# libmysqlclient-dev \                  # MySQL development libraries (for working with MySQL databases)
+# unixodbc-dev \                        # ODBC libraries (for database connectivity)
+# libnode-dev \                         # Node.js development libraries (may be required for web or JavaScript integration)
+# libx11-dev \                          # X11 libraries (used for GUI development on X-based systems)
+# git \                                 # Git version control system
+# zlib1g-dev \                          # Compression library (important for many software builds)
+# libglpk-dev \                         # Linear programming optimization library
+# libjpeg-dev \                         # JPEG image library
+# libmagick++-dev \                     # ImageMagick development libraries (useful for image manipulation)
+# gsfonts \                             # Fonts for Ghostscript (used for PDF generation)
+# cmake \                               # Build system generator (used to compile complex software)
+# libpng-dev \                          # PNG image library
+# python3 \                             # Python 3 (required for some R packages that interface with Python)
+# libglu1-mesa-dev \                    # OpenGL development libraries (for 3D graphics)
+# libgl1-mesa-dev \                     # OpenGL libraries (for rendering graphics)
+# libgdal-dev \                         # Geospatial Data Abstraction Library (for working with spatial data)
+# gdal-bin \                            # GDAL utilities (used for geospatial data processing)
+# libgeos-dev \                         # Geometry Engine library (for spatial data operations)
+# libproj-dev \                         # Projection library (used with geospatial data)
+# libsqlite3-dev \                      # SQLite database libraries
+# libicu-dev \                          # International Components for Unicode (for string handling in different languages)
+# tcl \                                 # Tcl scripting language (used with Tk for GUI)
+# tk \                                  # Tk GUI toolkit (used with Tcl)
+# tk-dev \                              # Development files for Tk (needed for building Tk applications)
+# tk-table \                            # Tk table widget (used for interactive tables in GUIs)
+# libudunits2-dev \                     # Unit conversion library (used for handling units of measurement in R)
 
 
 # Add R repository
@@ -248,7 +280,7 @@ for service in nginx rstudio-server shiny-server fail2ban; do
 
 # Install R packages: This may take some time: 110 R packages
 sudo R --vanilla << EOF || { echo 'ERROR: R package installation failed' >&2; exit 1; }
-pak::pkg_install(c('DBI', 'RPostgreSQL', 'dbplyr', 'dplyr', 'tidyr', 'readr', 'purrr', 'stringr', 'forcats', 'lubridate', 'jsonlite', 'devtools', 'roxygen2', 'testthat', 'rmarkdown', 'pkgdown', 'tinytex', 'ggplot2', 'showtext', 'ggtext', 'plotly', 'shiny', 'htmltools', 'bslib', 'xml2', 'parallel', 'future', 'furrr'))
+pak::pkg_install(c('renv', 'DBI', 'RPostgreSQL', 'dbplyr', 'dplyr', 'tidyr', 'readr', 'purrr', 'stringr', 'forcats', 'lubridate', 'jsonlite', 'devtools', 'roxygen2', 'testthat', 'rmarkdown', 'pkgdown', 'tinytex', 'ggplot2', 'showtext', 'ggtext', 'plotly', 'shiny', 'htmltools', 'bslib', 'xml2', 'parallel', 'future', 'furrr'))
 q()
 EOF
 
