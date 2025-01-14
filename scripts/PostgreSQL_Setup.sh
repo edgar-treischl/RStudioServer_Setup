@@ -1,5 +1,12 @@
-adduser gisela
-usermod -aG sudo gisela
+#!/bin/bash
+
+#ssh root@ip_address
+
+
+
+
+adduser edgar
+usermod -aG sudo edgar
 
 
 #ssh root@ip_address
@@ -39,17 +46,14 @@ CREATE DATABASE defaultdb;
 \l
 
 #Create a new user
-CREATE USER gisela WITH PASSWORD 'password';
-GRANT ALL PRIVILEGES ON DATABASE defaultdb TO gisela;
+CREATE USER edgar WITH PASSWORD 'password';
+GRANT ALL PRIVILEGES ON DATABASE defaultdb TO edgar;
 
 \du
 
 \q
 
 
-\c defaultdb
-
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO gisela;
 
 
 
@@ -60,13 +64,13 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO gisela;
 #Edit postgresql.conf to listen on all IP addresses:
 #set: listen_addresses = '*'
 
+psql --version
 
-
-sudo nano /etc/postgresql/12/main/postgresql.conf
+sudo nano /etc/postgresql/16/main/postgresql.conf
 
 
 #Configure pg_hba.conf for remote access:
-sudo nano /etc/postgresql/12/main/pg_hba.conf
+sudo nano /etc/postgresql/16/main/pg_hba.conf
 
 #Add line
 #host    all             all             0.0.0.0/0            md5
@@ -74,6 +78,7 @@ sudo nano /etc/postgresql/12/main/pg_hba.conf
 
 #Restart PostgreSQL to apply changes:
 sudo systemctl restart postgresql
+
 
 #Allow PostgreSQL Port through the Firewall (Optional)
 sudo ufw status
@@ -91,5 +96,31 @@ exit
 
 
 
+#sudo apt install pgadmin4
+
+sudo apt install curl ca-certificates gnupg
+curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo tee /etc/apt/trusted.gpg.d/packages_pgadmin_org.asc
+
+sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/ubuntu/ focal pgadmin4" > /etc/apt/sources.list.d/pgadmin4.list'
+
+sudo apt update
+
+sudo apt install pgadmin4-web
+
+
+#Website:
+curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+
+sudo apt install pgadmin4
+
+sudo /usr/pgadmin4/bin/setup-web.sh
+
+edgar.treischl@me.com
+
+
+sudo apt install apache2
+
+sudo nano /etc/apache2/apache2.conf
 
 
