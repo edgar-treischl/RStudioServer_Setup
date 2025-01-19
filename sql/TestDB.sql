@@ -1,2 +1,2 @@
 -- !preview conn=con
-SELECT * FROM mtcars WHERE am = 0;
+SELECT * FROM mtcars_metadata;

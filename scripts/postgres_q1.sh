@@ -1,13 +1,9 @@
-
-
-#http://ip/pgadmin4
-
-
 #!/bin/bash
 
+# http://ip/pgadmin4
 # SSH into remote server
+#ssh treischl@ip
 
-#ssh root@ip
 
 
 
@@ -45,9 +41,8 @@ fi
 
 # Set up a default PostgreSQL database and user (optional)
 echo "Creating a default PostgreSQL role and database..."
-sudo -u postgres psql -c "CREATE USER pgadminuser WITH PASSWORD 'pgadminpassword';"
-sudo -u postgres psql -c "CREATE DATABASE pgadmin WITH OWNER pgadminuser;"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE pgadmin TO pgadminuser;"
+sudo -u postgres psql -c "CREATE USER treischl WITH SUPERUSER PASSWORD 'PassWort';"
+sudo -u postgres psql -c "CREATE DATABASE default_db WITH OWNER treischl;"
 
 
 # Add pgAdmin 4 official repository and install pgAdmin 4
@@ -60,9 +55,12 @@ echo "Installing pgAdmin 4..."
 sudo apt install -y pgadmin4-web
 
 # Set up pgAdmin 4 web mode
+#Add Mail
 echo "Setting up pgAdmin 4 web interface..."
-export PGADMIN_DEFAULT_EMAIL="admin@example.com"
-export PGADMIN_DEFAULT_PASSWORD="adminpassword"
+export PGADMIN_DEFAULT_EMAIL="admin-q1@isb.bayern.de"
+
+#Add Password
+export PGADMIN_DEFAULT_PASSWORD="Passwort"
 sudo /usr/pgadmin4/bin/setup-web.sh
 
 # Configure PostgreSQL to listen on all IP addresses
@@ -99,10 +97,41 @@ else
 fi
 
 # Testing connection (local)
-psql -h localhost -U pgadminuser -d pgadmin -p 5432
+psql -h localhost -U treischl -d default_db -p 5432
 
-# Troubleshooting
-sudo -u postgres psql -c "\l"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##Change passwords for users############################################
+
+sudo -u postgres psql
+ALTER USER hasi WITH PASSWORD 'Hasi1234';
+
+\q
+
+
+
+
+
+
+
+
+
 
 
 

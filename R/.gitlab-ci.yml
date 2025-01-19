@@ -1,0 +1,33 @@
+variables:
+  R_LIBS_USER: "/home/gitlab-runner/Rlibs"  # Set to a custom writable directory if needed
+
+stages:
+  - build
+  - deploy
+
+build_pkgdown:
+  image: rocker/r-ver:4.2.2
+  stage: build
+  script:
+    # Install dependencies
+    - apt-get update && apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev git
+    # Use R_LIBS_USER environment variable for installing R packages
+    - mkdir -p $R_LIBS_USER  # Make sure the directory exists
+    - R -e "install.packages('pak', lib = Sys.getenv('R_LIBS_USER'))"
+    - R -e "pak::pkg_install('pkgdown', lib = Sys.getenv('R_LIBS_USER'))"
+    - R -e "pkgdown::build_site()"
+  artifacts:
+    paths:
+      - public
+
+pages:
+  stage: deploy
+  script:
+    - echo "Deploying pkgdown site"
+  artifacts:
+    paths:
+      - public
+  dependencies:
+    - build_pkgdown
+  only:
+    - main

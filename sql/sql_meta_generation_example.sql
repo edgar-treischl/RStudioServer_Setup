@@ -1,18 +1,15 @@
 -- !preview conn=con
 
-CREATE TABLE mtcars_meta (
-    table_name VARCHAR(255),
-    column_name VARCHAR(255),
+CREATE TABLE mtcars_metadata (
+    table_name TEXT,
+    column_name TEXT,
     description TEXT,
-    data_type VARCHAR(255),
-    levels TEXT[], -- For categorical columns like 'vs', 'am', 'gear', etc.
-    measurement_units VARCHAR(255),
+    data_type TEXT,
+    levels TEXT[],
+    measurement_units TEXT,
     range_min DOUBLE PRECISION,
-    range_max DOUBLE PRECISION,
-    PRIMARY KEY (table_name, column_name)
+    range_max DOUBLE PRECISION
 );
-
--- Insert metadata for the mtcars_data table columns
 
 INSERT INTO mtcars_metadata (table_name, column_name, description, data_type, levels, measurement_units, range_min, range_max)
 VALUES
@@ -27,4 +24,8 @@ VALUES
 ('mtcars_data', 'am', 'Transmission type (0 = automatic, 1 = manual).', 'INT', ARRAY['0', '1'], NULL, 0, 1),
 ('mtcars_data', 'gear', 'Number of forward gears.', 'INT', ARRAY['3', '4', '5'], NULL, 3, 5),
 ('mtcars_data', 'carb', 'Number of carburetors.', 'INT', NULL, NULL, 1, 6);
+
+COMMIT;
+
+
 

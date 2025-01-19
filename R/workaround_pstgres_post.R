@@ -1,15 +1,15 @@
 library(DBI)
 
 # Provide the path to the config file/credentials
-# myhost <- "ip"
-# credential <- "password"
-# db_user <-"user"
+myhost <- "10.155.36.195"
+credential <- "admin_pw"
+db_user <- "postgres"
 
 
 # Connect to the database
 con <- dbConnect(
   RPostgres::Postgres(),
-  dbname = "pgadmin",
+  dbname = "default_db",
   host = myhost,
   port = 5432,
   user = db_user,
@@ -23,7 +23,15 @@ dbListTables(con)
 
 
 
-dplyr::copy_to(con, mtcars, temporary = FALSE)
+dplyr::copy_to(con, mtcars, temporary = FALSE, overwrite = T)
+
+dplyr::copy_to(con, penguins, temporary = FALSE)
+
+
+dbExecute(con, "DELETE FROM mtcars;")
+dbExecute(con, "DROP TABLE IF EXISTS penguins;")
+result <- dbGetQuery(con, "SELECT COUNT(*) FROM public.mtcars;")
+print(result)
 
 # exit
 dbDisconnect(con)
@@ -38,7 +46,7 @@ print(head(data))
 
 mtcars
 
-query_metadata <- "SELECT * FROM mtcars_meta WHERE table_name = 'mtcars_data'"
+query_metadata <- "SELECT * FROM mtcars WHERE table_name = 'mtcars_data'"
 metadata <- dbGetQuery(con, query_metadata)
 print(metadata)
 
