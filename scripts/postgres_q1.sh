@@ -1,9 +1,9 @@
 #!/bin/bash
 
+# Connect to the remote server
 # http://ip/pgadmin4
 # SSH into remote server
-#ssh treischl@ip
-
+# ssh user@ip
 
 
 
@@ -57,10 +57,9 @@ sudo apt install -y pgadmin4-web
 # Set up pgAdmin 4 web mode
 #Add Mail
 echo "Setting up pgAdmin 4 web interface..."
-export PGADMIN_DEFAULT_EMAIL="admin-q1@isb.bayern.de"
-
+#export PGADMIN_DEFAULT_EMAIL="admin-q1@isb.bayern.de"
 #Add Password
-export PGADMIN_DEFAULT_PASSWORD="Passwort"
+#export PGADMIN_DEFAULT_PASSWORD="Passwort"
 sudo /usr/pgadmin4/bin/setup-web.sh
 
 # Configure PostgreSQL to listen on all IP addresses
@@ -103,7 +102,27 @@ psql -h localhost -U treischl -d default_db -p 5432
 
 
 
+# postgis?############################################
+# We are running
+pg_lsclusters
 
+# Postgis is available for 
+sudo apt search postgresql-16 | grep postgis
+
+# Install
+sudo apt install -y postgresql-16-postgis-3
+
+# Verify PostGIS Installation and create extensions
+#psql -U treischl -d default_db
+psql -U treischl -d default_db <<EOF
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_raster;
+
+SELECT PostGIS_Version();
+SELECT * FROM pg_extension WHERE extname = 'postgis_raster';
+
+\q
+EOF
 
 
 

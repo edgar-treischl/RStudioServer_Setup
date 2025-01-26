@@ -1,4 +1,8 @@
-
+# Add a new user
+# sudo adduser treischl
+# sudo usermod -aG sudo treischl
+# su - treischl
+# sudo whoami
 
 #http://ip/pgadmin4
 
@@ -42,12 +46,12 @@ else
     echo "PostgreSQL is running."
 fi
 
-
+# NEW Superuser
 # Set up a default PostgreSQL database and user (optional)
+#sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE pgadmin TO pgadminuser;"
 echo "Creating a default PostgreSQL role and database..."
-sudo -u postgres psql -c "CREATE USER pgadminuser WITH PASSWORD 'pgadminpassword';"
-sudo -u postgres psql -c "CREATE DATABASE pgadmin WITH OWNER pgadminuser;"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE pgadmin TO pgadminuser;"
+sudo -u postgres psql -c "CREATE USER treischl WITH SUPERUSER PASSWORD 'EnterPassword';"
+sudo -u postgres psql -c "CREATE DATABASE default_db WITH OWNER treischl;"
 
 
 # Add pgAdmin 4 official repository and install pgAdmin 4
@@ -62,7 +66,7 @@ sudo apt install -y pgadmin4-web
 # Set up pgAdmin 4 web mode
 echo "Setting up pgAdmin 4 web interface..."
 export PGADMIN_DEFAULT_EMAIL="admin@example.com"
-export PGADMIN_DEFAULT_PASSWORD="adminpassword"
+export PGADMIN_DEFAULT_PASSWORD="EnterPassword"
 sudo /usr/pgadmin4/bin/setup-web.sh
 
 # Configure PostgreSQL to listen on all IP addresses
@@ -99,10 +103,32 @@ else
 fi
 
 # Testing connection (local)
-psql -h localhost -U pgadminuser -d pgadmin -p 5432
+psql -h localhost -U treischl -d pgadmin -p 5432
 
 # Troubleshooting
 sudo -u postgres psql -c "\l"
+
+
+
+# postgis?############################################
+# We are running
+pg_lsclusters
+
+# Postgis is available for 
+sudo apt search postgresql-16 | grep postgis
+
+# Install
+sudo apt install -y postgresql-16-postgis-3
+
+# Verify PostGIS Installation
+psql -U treischl -d default_db
+
+# Create Extenstions for default_db
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_raster; 
+
+SELECT PostGIS_Version();
+SELECT * FROM pg_extension WHERE extname = 'postgis_raster';
 
 
 
