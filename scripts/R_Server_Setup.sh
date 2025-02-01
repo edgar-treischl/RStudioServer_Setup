@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#ssh root@ip
-
 
 # Update system
 apt-get update || { echo 'ERROR: apt-get update failed' >&2; exit 1; }
